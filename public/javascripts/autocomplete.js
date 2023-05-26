@@ -28,7 +28,7 @@ const Autocomplete = {
     const { value } = this.input;
 
     if (value.length > 0) {
-      this.fetchMatches((_value, matches) => {
+      this.fetchMatches((value, matches) => {
         this.visible = true;
         this.matches = matches;
         this.draw();
@@ -36,6 +36,18 @@ const Autocomplete = {
     } else {
       this.reset();
     }
+  },
+
+  fetchMatches(query, callback) {
+    const request = new XMLHttpRequest();
+
+    request.addEventListener('load', () => {
+      callback(request.response);
+    });
+
+    request.open('GET', `${this.url}${encodeURIComponent(query)}`);
+    request.responseType = 'json';
+    request.send();
   },
 
   init() {
