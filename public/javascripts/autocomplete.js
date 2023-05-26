@@ -69,6 +69,13 @@ const Autocomplete = {
     });
   },
 
+  reset() {
+    this.visible = false;
+    this.matches = [];
+
+    this.draw();
+  },
+
   init() {
     this.input = document.querySelector('input');
     this.url = '/countries?matching=';
@@ -82,6 +89,8 @@ const Autocomplete = {
     this.wrapInput();
     this.createUI();
     this.bindEvents();
+
+    this.reset();
   },
 };
 
