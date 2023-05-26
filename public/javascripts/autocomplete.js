@@ -31,6 +31,7 @@ const Autocomplete = {
       this.fetchMatches((value, matches) => {
         this.visible = true;
         this.matches = matches;
+        this.bestMatchIndex = 0;
         this.draw();
       });
     } else {
@@ -60,6 +61,13 @@ const Autocomplete = {
       return;
     }
 
+    if (this.bestMatchIndex !== null && this.matches.length !== 0) {
+      const selected = this.matches[this.bestMatchIndex];
+      this.overlay.textContent = selected.name;
+    } else {
+      this.overlay.textContent = '';
+    }
+
     this.matches.forEach(match => {
       let li = document.createElement('li');
       li.classList.add('autocomplete-ui-choice');
@@ -72,6 +80,7 @@ const Autocomplete = {
   reset() {
     this.visible = false;
     this.matches = [];
+    this.bestMatchIndex = null;
 
     this.draw();
   },
@@ -82,9 +91,6 @@ const Autocomplete = {
 
     this.listUI = null;
     this.overlay = null;
-
-    this.visible = false;
-    this.matches = [];
 
     this.wrapInput();
     this.createUI();
